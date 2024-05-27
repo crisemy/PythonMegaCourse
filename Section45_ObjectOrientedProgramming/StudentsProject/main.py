@@ -18,7 +18,7 @@ class Article:
 class Receipt:
     def __init__(self, article):
         self.article = article
-
+    # Defines and generates the PDF file which in this case is a billing file
     def generate(self):
         pdf = FPDF(orientation="P", unit="mm", format="A4")
         pdf.add_page()

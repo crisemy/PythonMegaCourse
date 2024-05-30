@@ -40,6 +40,11 @@ class ReservationTicket:
         Hotel Name: {self.hotel.name} 
         """
 
+
+class CreditCard:
+    pass
+
+
 '''MAIN PROGRAM'''
 print(df)
 hotel_ID = input("Enter the id of the Hotel: ")
@@ -48,6 +53,9 @@ hotel_ID = input("Enter the id of the Hotel: ")
 hotel = Hotel(hotel_ID)
 
 if (hotel.available):
+    # Asks Users for a specific Credit Card Number
+    credit_card = CreditCard()
+    
     hotel.book()
     name = input("Enter your name: ")
     # Providing the Hotel ID and the Name of the person who reserves the Ticket

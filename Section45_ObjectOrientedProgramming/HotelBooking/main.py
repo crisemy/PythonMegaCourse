@@ -1,10 +1,13 @@
 import pandas
 
+# REVISIT THIS SCRIPT WHICH IS NOT RETURNING PROPER VALUES 
+
 # Initiating a Pandas Object with a methods to read .csv files. 
 # The dtype means that we're sending a String rather than an Integer for the ID of the Hotel and a 
 # STR as part of the entire record for every one of those Hotels.
 df = pandas.read_csv("hotels.csv", dtype= {"id" : str})
-df_cards = pandas.read_csv("cards.csv", dtype=str).to_dict(orient="records") # Init the Object into a Dictionary to compare values.
+df_cards = pandas.read_csv("cards.csv", dtype=str).to_dict(orient="records") # Init the Object into a Dictionary to compare values
+df_cards_security = pandas.read_csv("card_security.csv", dtype=str)
 
 
 class Hotel:
@@ -57,6 +60,15 @@ class CreditCard:
         else:
             return False
 
+# Inheritance from the CreditCard Class which is the Parent class. The SecureCreditCard class is the child
+class SecureCreditCard(CreditCard):
+    def authenticate(self, given_password):
+        # Sending the Number of the credit card (in the card_security.csv file) which needs to be consistent with the number of the cards.csv file.
+        password = df_cards_security.loc[df_cards_security["number"] == self.number, "password"].squeeze()
+        if password == given_password:
+            return True
+        else:
+            return False
 
 '''MAIN PROGRAM'''
 print(df)
@@ -67,18 +79,21 @@ hotel = Hotel(hotel_ID)
 
 if (hotel.available):
     # Asks Users for a specific Credit Card Number
-    credit_card = CreditCard(number="123456") # Adding a harcoding one which corresponds with a record in the cards.csv file
+    credit_card = SecureCreditCard(number="1234561234567890123456") # Adding a harcoding one which corresponds with a record in the card_security.csv file
     if credit_card.validate(expiration="12/26", holder="JOHN SMITH", cvc="123"):
-        hotel.book()
-        name = input("Enter your name: ")
-        # Providing the Hotel ID and the Name of the person who reserves the Ticket
-        reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
-        print("Goes here or not?")
-        print(reservation_ticket.generate())
+        if credit_card.authenticate(given_password="mypass"):
+            hotel.book()
+            name = input("Enter your name: ")
+            # Providing the Hotel ID and the Name of the person who reserves the Ticket
+            reservation_ticket = ReservationTicket(customer_name=name, hotel_object=hotel)
+            print("Goes here or not?")
+            print(reservation_ticket.generate())
+        else: 
+            print("Credit Card authentication failed. Please, try again later")
     else:
         print("There was a problem with your payment. Please, try again!")
 else:
-    print("Hotel is not free.")
+    print("Hotel is not free")
 
 '''
 Hotels.csv FILE

@@ -45,7 +45,7 @@ class ReservationTicket:
         Name: {self.customer_name}
         Hotel Name: {self.hotel.name} 
         """
-
+        return content
 
 class CreditCard:
     def __init__(self, number):
@@ -78,8 +78,8 @@ hotel_ID = input("Enter the id of the Hotel: ")
 hotel = Hotel(hotel_ID)
 
 if (hotel.available):
-    # Asks Users for a specific Credit Card Number
-    credit_card = SecureCreditCard(number="1234561234567890123456") # Adding a harcoding one which corresponds with a record in the card_security.csv file
+    # Asks Users for a specific Credit Card Number 1234567890123456
+    credit_card = SecureCreditCard(number="1234567890123456") # Adding a harcoding one which corresponds with a record in the card_security.csv file
     if credit_card.validate(expiration="12/26", holder="JOHN SMITH", cvc="123"):
         if credit_card.authenticate(given_password="mypass"):
             hotel.book()

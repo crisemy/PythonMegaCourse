@@ -22,4 +22,8 @@ v = Number of votes for a movie(movies.vote_count)
 m = Minimum number of votes required to be consider as a popular Movie
 R = Average rating of a movie(movies.vote_average)
 C = Average rating accross all movies
-NOTE: We need to calculate m and C because those 2 values are not part of above .csv files.TM-24123 | Test Automation | PR-8983 | @sam / @anavarro
+NOTE: We need to calculate m and C because those 2 values are not part of above .csv files.
+
+# Install scipy for interacting with. We might need to use it to vectorize the text
+pip install scikit-learn
+
